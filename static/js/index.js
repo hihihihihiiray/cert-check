@@ -134,6 +134,11 @@ function uploads(p12, password, mp, plist) {
                 $('#certResult').removeClass('hide');
                 $('#fileCertResult').removeClass('hide');
 
+                // Save raw state so the language toggle can re-render these later
+                lastCertState   = res.state || 'unknown';
+                lastCertType    = res.certType || null;
+                lastAttribution = res.attribution || null;
+
                 if (res.state == 'revoked') {
                     $('#revokedDate').removeClass('hide');
                     $('#certStatus').prepend('<span class="text-danger">' + t('statusRevoked') + '</span>');
@@ -155,7 +160,7 @@ function uploads(p12, password, mp, plist) {
                 $('#certName').html(res.certName);
                 $('#certExpireDate').html(res.notAfter);
                 if (res.certType) {
-                    $('#certType').html(res.certType + '(' + t('country') + ':' + res.attribution + ')');
+                    $('#certType').html(res.certType + ' (' + t('country') + ': ' + res.attribution + ')');
                 } else if (res.attribution) {
                     $('#certType').html(res.attribution);
                 }
@@ -165,12 +170,14 @@ function uploads(p12, password, mp, plist) {
                     $('#certSha1').html(res.sha1);
                 }
                 if (res.expirationDate) {
+                    lastProvisionMatched = true;
                     $('.provision-detail').removeClass('hide');
                     $('#provisionExpireDate').html(res.expirationDate);
                     $('#identifier').html(res.appid);
                     $('#provisionStatus').prepend('<span class="text-success">' + t('provisionMatched') + '</span>');
                 }
                 if (res.cFBundleName) {
+                    lastProvisionMatched = true;
                     $('#provisionStatus').prepend('<span class="text-success">' + t('provisionMatched') + '</span>');
                     $('.bundleIdSpan').html(res.cFBundleIdentifier);
                     $('#certRevokedDate').html(res.revokedDate);
