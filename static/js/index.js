@@ -205,10 +205,61 @@ function uploads(p12, password, mp, plist) {
 }
 
 /* -------------------------------------------------------------------------
- * Reload the page (re-check button)
+ * Reset UI back to upload state without reloading the page
  * ---------------------------------------------------------------------- */
 function toggleRes() {
-    location.reload();
+    // Reset upload state
+    uploading  = false;
+    file_item  = null;
+    this_input = null;
+
+    // Clear the file input so the same file can be re-selected
+    $('#uploadfile').val('');
+
+    // Hide results and error panels
+    $('#certResult').addClass('hide');
+    $('#search').addClass('hide');
+    $('#errorMsg').addClass('hide');
+    $('#recheckBtn').addClass('hide');
+
+    // Clear injected result content
+    $('#certStatus').empty();
+    $('#certName').empty();
+    $('#certExpireDate').empty();
+    $('#certRevokedDate').empty();
+    $('#certType').empty();
+    $('#certSha1').empty();
+    $('#provisionStatus').empty();
+    $('#provisionExpireDate').empty();
+    $('#identifier').empty();
+    $('#errorMsg').empty();
+
+    // Re-hide rows that are only shown conditionally
+    $('#revokedDate').addClass('hide');
+    $('#sha1Row').addClass('hide');
+    $('#appName').addClass('hide');
+    $('#bundleId').addClass('hide');
+    $('#certDetail').removeClass('hide');
+    $('.provision-detail').addClass('hide');
+
+    // Clear IPA-specific fields
+    $('.appNameSpan').empty();
+    $('.bundleIdSpan').empty();
+
+    // Restore cert icon to default
+    $('#certFlag').attr('src', 'static/picture/cert_icon_2x.png');
+
+    // Reset certStatusExplain popover class
+    $('#certStatusExplain').removeClass('hide');
+
+    // Reset language-toggle tracking variables (defined in index.html)
+    if (typeof lastCertState   !== 'undefined') lastCertState   = null;
+    if (typeof lastCertType    !== 'undefined') lastCertType    = null;
+    if (typeof lastAttribution !== 'undefined') lastAttribution = null;
+    if (typeof lastProvisionMatched !== 'undefined') lastProvisionMatched = false;
+
+    // Show the upload box again
+    $('#shortUrl').css('display', '');
 }
 
 /* -------------------------------------------------------------------------
