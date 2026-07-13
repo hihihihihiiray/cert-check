@@ -54,8 +54,8 @@
 	<div class="content container mt-80 inner-content">
 	    <div class="col-md-12">
 			<div class="col-md-offset-8 text-center">
-				<button type="button" class="btn btn-success" onclick="window.open('https://t.me/p12eev2/')" data-zh="加入频道" data-en="Join Channel">加入频道</button>
-				<p style="color:red" data-zh="可收到掉签实时通知" data-en="Get real-time revocation alerts">可收到掉签实时通知</p>
+				<button type="button" class="btn btn-success" onclick="window.open('https:/onebypasser.com/')" data-zh="加入频道" data-en="Visit Website">加入频道</button>
+				<p style="color:red" data-zh="可收到掉签实时通知" data-en="Visit our website">可收到掉签实时通知</p>
 			</div>
 		<h3 class="text-center font-36 font-cert-check-title" data-zh="iOS 证书在线检测" data-en="iOS Certificate Checker">
 			iOS 证书在线检测
@@ -146,7 +146,7 @@
 										</span>
 									</p>
 									<p class="check-item hide" id="revokedDate">
-										<span class="text-right item-title" data-zh="掉签时间：" data-en="Revocation Date:"> 掉签时间： </span>
+										<span class="text-right item-title" data-zh="掉签时间：" data-en="Revoked Date:"> 掉签时间： </span>
 										<span class="text-left item-result certExpireDateSpan" id="certRevokedDate">
 										</span>
 									</p>
@@ -215,7 +215,7 @@
 				<div class="alert alert-warning alert-dismissablewarning mb-0 mt-50 text-left" id="fileCheckAlert"
 					style="border-radius: 0;border: none;color: #555;margin-bottom: 0px;">
 					<i class="fa fa-exclamation-circle"> </i>
-					<span class="ml-5" style="margin-left: 5px" data-zh="通过ipa安装包进行检测，检测结果会有10%左右的误差。" data-en="When checking via IPA, results may have ~10% margin of error.">
+					<span class="ml-5" style="margin-left: 5px" data-zh="通过ipa安装包进行检测，检测结果会有10%左右的误差。" data-en="When checking via IPA, results may have about a 10% margin of error.">
 						通过ipa安装包进行检测，检测结果会有10%左右的误差。
 					</span>
 					<br />
@@ -244,15 +244,24 @@
 	/* ── Language toggle ── */
 	var currentLang = 'zh';
 
+	// Stores raw API values so we can re-render them when language switches
+	var lastCertState   = null;  // 'revoked' | 'expired' | 'good' | other
+	var lastCertType    = null;  // e.g. 'In-House'
+	var lastAttribution = null;  // e.g. 'US'
+	var lastProvisionMatched = false;
+
 	function toggleLang() {
 		currentLang = currentLang === 'zh' ? 'en' : 'zh';
 		applyLang(currentLang);
 	}
 
 	function applyLang(lang) {
-		// Swap every element that has data-zh / data-en attributes
-		$('[data-zh]').each(function () {
-			$(this).text($(this).attr('data-' + lang));
+		// Only swap elements that have BOTH data-zh and data-en and no child elements
+		// (using .children().length === 0 to avoid wiping button children, icon spans etc.)
+		$('[data-zh][data-en]').each(function () {
+			if ($(this).children().length === 0) {
+				$(this).text($(this).attr('data-' + lang));
+			}
 		});
 
 		// Update the button label to show what language you'll switch TO
@@ -263,6 +272,47 @@
 			? '证书已被您自己或苹果官方撤销 (revoke)'
 			: 'The certificate was revoked by you or Apple.';
 		$('#certStatusExplain').attr('data-content', revokedExplain);
+
+		// Re-render dynamic result values that were injected by index.js
+		if (lastCertState) {
+			rerenderCertStatus(lastCertState, lang);
+		}
+		if (lastCertType !== null || lastAttribution !== null) {
+			rerenderCertType(lastCertType, lastAttribution, lang);
+		}
+		if (lastProvisionMatched) {
+			rerenderProvisionStatus(lang);
+		}
+	}
+
+	function rerenderCertStatus(state, lang) {
+		$('#certStatus').empty();
+		var labels = {
+			zh: { revoked: '掉签', expired: '过期', good: '正常', unknown: '未知' },
+			en: { revoked: 'Revoked', expired: 'Expired', good: 'Valid', unknown: 'Unknown' }
+		};
+		var map = labels[lang] || labels['zh'];
+		var word = map[state] || map['unknown'];
+		var cls  = (state === 'good') ? 'text-success' : 'text-danger';
+		$('#certStatus').prepend('<span class="' + cls + '">' + word + '</span>');
+	}
+
+	function rerenderCertType(certType, attribution, lang) {
+		if (!certType && !attribution) return;
+		var countryWord = (lang === 'en') ? 'Country' : '国家';
+		var val = '';
+		if (certType && attribution) {
+			val = certType + ' (' + countryWord + ': ' + attribution + ')';
+		} else if (attribution) {
+			val = attribution;
+		}
+		$('#certType').html(val);
+	}
+
+	function rerenderProvisionStatus(lang) {
+		$('#provisionStatus').empty();
+		var word = (lang === 'en') ? 'Matches Certificate' : '与证书匹配';
+		$('#provisionStatus').prepend('<span class="text-success">' + word + '</span>');
 	}
 </script>
 </body>
