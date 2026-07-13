@@ -54,29 +54,29 @@
 	<div class="content container mt-80 inner-content">
 	    <div class="col-md-12">
 			<div class="col-md-offset-8 text-center">
-				<button type="button" class="btn btn-success" onclick="window.open('https://t.me/p12eev2/')" data-zh="加入频道" data-en="Join channel">加入频道</button>
-				<p style="color:red" data-zh="可收到掉签实时通知" data-en="Join the channel to get revocation/expiry updates">可收到掉签实时通知</p>
+				<button type="button" class="btn btn-success" onclick="window.open('https://t.me/p12eev2/')" data-i18n data-zh="加入频道" data-en="Join channel">加入频道</button>
+				<p style="color:red" data-i18n data-zh="可收到掉签实时通知" data-en="Join the channel to get revocation/expiry updates">可收到掉签实时通知</p>
 			</div>
-		<h3 class="text-center font-36 font-cert-check-title" data-zh="iOS 证书在线检测" data-en="iOS Certificate Checker">
+		<h3 class="text-center font-36 font-cert-check-title" data-i18n data-zh="iOS 证书在线检测" data-en="iOS Certificate Checker">
 			iOS 证书在线检测
 		</h3>
 		<div class="text-center cert mt-30 col-md-8 col-md-offset-2">
 			<div class="form-horizontal text-center" id="checkStatus">
 				<ul id="certCheckTab" class="nav nav-tabs hide">
 					<li class="active">
-						<a href="index.html#certFile" data-id="file" data-toggle="tab" data-zh="p12 文件检测" data-en="p12 File Check">
+						<a href="index.html#certFile" data-id="file" data-toggle="tab" data-i18n data-zh="p12 文件检测" data-en="p12 File Check">
 							p12 文件检测
 						</a>
 					</li>
 					<li>
-						<a href="index.html#shortUrl" data-id="url" data-toggle="tab" data-zh="安装包检测" data-en="IPA Check">
+						<a href="index.html#shortUrl" data-id="url" data-toggle="tab" data-i18n data-zh="安装包检测" data-en="IPA Check">
 							安装包检测
 						</a>
 					</li>
 				</ul>
 				<div id="certCheckTabContent" class="tab-content">
 					<div class="tab-pane fade active in" id="shortUrl">
-						<h5 class="url-title" data-zh="请上传：mobileprovision、p12或ipa文件" data-en="Upload: mobileprovision, p12, or ipa file">请上传：mobileprovision、p12或ipa文件</h5>
+						<h5 class="url-title" data-i18n data-zh="请上传：mobileprovision、p12或ipa文件" data-en="Upload: mobileprovision, p12, or ipa file">请上传：mobileprovision、p12或ipa文件</h5>
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-12">
@@ -84,10 +84,10 @@
 										<img id="" src="static/picture/ipa_pic.png" style=""
 											class="img-responsive center-block file-icon" />
 										<div class="text-center upload-tips">
-											<p data-zh="点击选择文件或拖拽文件至此区域" data-en="Click to select or drag a file here">点击选择文件或拖拽文件至此区域</p>
+											<p data-i18n data-zh="点击选择文件或拖拽文件至此区域" data-en="Click to select or drag a file here">点击选择文件或拖拽文件至此区域</p>
 										</div>
 										<div class="text-center upload-tips">
-											<p data-zh="（支持mobileprovision、p12和ipa）" data-en="(Supports mobileprovision, p12, and ipa)">（支持mobileprovision、p12和ipa）</p>
+											<p data-i18n data-zh="（支持mobileprovision、p12和ipa）" data-en="(Supports mobileprovision, p12, and ipa)">（支持mobileprovision、p12和ipa）</p>
 										</div>
 									</div>
 								</div>
@@ -95,7 +95,7 @@
 						</div>
 					</div>
 					<div class="hide text-center" id="certResult">
-						<h5 class="url-title mb-30" data-zh="检测结果" data-en="Check Results">检测结果</h5>
+						<h5 class="url-title mb-30" data-i18n data-zh="检测结果" data-en="Check Results">检测结果</h5>
 						<p class="hide" id="errorMsg">
 							<span style="color: #fd5a5a; font-size: 18px"> </span>
 							<a href="javascript:void(0);" class="popovers hide" data-html="true" data-container="body"
@@ -114,7 +114,7 @@
 									</div>
 									<div class="text-left" style="">
 										<p class="">
-											<span class="" data-zh="证书状态" data-en="Certificate Status"> 证书状态 </span>
+											<span class="" data-i18n data-zh="证书状态" data-en="Certificate Status"> 证书状态 </span>
 										</p>
 										<p class="" style="margin-bottom: 0">
 											<span class="font-18" style="font-weight: 600">
@@ -134,39 +134,39 @@
 								</div>
 								<div class="col-md-12" style="">
 									<p class="check-item" style="">
-										<span class="text-right item-title" style="" data-zh="证书名称：" data-en="Certificate Name:">
+										<span class="text-right item-title" style="" data-i18n data-zh="证书名称：" data-en="Certificate Name:">
 											证书名称：
 										</span>
 										<span class="text-left item-result certNameSpan" id="certName">
 										</span>
 									</p>
 									<p class="check-item">
-										<span class="text-right item-title" data-zh="过期时间：" data-en="Expiry Date:"> 过期时间： </span>
+										<span class="text-right item-title" data-i18n data-zh="过期时间：" data-en="Expiry Date:"> 过期时间： </span>
 										<span class="text-left item-result certExpireDateSpan" id="certExpireDate">
 										</span>
 									</p>
 									<p class="check-item hide" id="revokedDate">
-										<span class="text-right item-title" data-zh="掉签时间：" data-en="Revocation Date:"> 掉签时间： </span>
+										<span class="text-right item-title" data-i18n data-zh="掉签时间：" data-en="Revocation Date:"> 掉签时间： </span>
 										<span class="text-left item-result certExpireDateSpan" id="certRevokedDate">
 										</span>
 									</p>
 									<div class="provision-detail hide">
 										<p class="check-item">
-											<span class="text-right item-title" data-zh="mobileprovision 状态：" data-en=".mobileprovision Status:">
+											<span class="text-right item-title" data-i18n data-zh="mobileprovision 状态：" data-en=".mobileprovision Status:">
 												mobileprovision 状态：
 											</span>
 											<span class="text-left item-result" id="provisionStatus">
 											</span>
 										</p>
 										<p class="check-item">
-											<span class="text-right item-title" data-zh="mobileprovision 标识：" data-en=".mobileprovision AppID:">
+											<span class="text-right item-title" data-i18n data-zh="mobileprovision 标识：" data-en=".mobileprovision AppID:">
 												mobileprovision 标识：
 											</span>
 											<span class="text-left item-result" id="identifier">
 											</span>
 										</p>
 										<p class="check-item">
-											<span class="text-right item-title" data-zh="mobileprovision 过期时间：" data-en=".mobileprovision Expiry:">
+											<span class="text-right item-title" data-i18n data-zh="mobileprovision 过期时间：" data-en=".mobileprovision Expiry:">
 												mobileprovision 过期时间：
 											</span>
 											<span class="text-left item-result" id="provisionExpireDate">
@@ -174,12 +174,12 @@
 										</p>
 									</div>
 									<p class="check-item provisionSignType">
-											<span class="text-right item-title" data-zh="证书类型：" data-en="Certificate Type:"> 证书类型： </span>
+											<span class="text-right item-title" data-i18n data-zh="证书类型：" data-en="Certificate Type:"> 证书类型： </span>
 											<span class="text-left item-result" id="certType">
 											</span>
 										</p>
 									<p class="check-item hide" style="" id="appName">
-										<span class="text-right item-title" style="" data-zh="应用名称：" data-en="App Name:">
+										<span class="text-right item-title" style="" data-i18n data-zh="应用名称：" data-en="App Name:">
 											应用名称：
 										</span>
 										<span class="text-left item-result appNameSpan"> </span>
@@ -203,24 +203,24 @@
 					</div>
 					<div class="text-center row hide" id="search">
 						<img src="static/picture/search.gif" class="img-responsive center-block" />
-						<p class="" data-zh="检测中..." data-en="Checking...">检测中...</p>
+						<p class="" data-i18n data-zh="检测中..." data-en="Checking...">检测中...</p>
 					</div>
 				</div>
 				<div class="row mb-30">
 					<a style="display: inline-block; padding: 6px 13px" class="btn-u h-30 mt-30 btn-check hide"
 						id="recheckBtn" onclick="toggleRes()">
-						<span class="font-13" data-zh="继续检测" data-en="Check Another"> 继续检测 </span>
+						<span class="font-13" data-i18n data-zh="继续检测" data-en="Check Another"> 继续检测 </span>
 					</a>
 				</div>
 				<div class="alert alert-warning alert-dismissablewarning mb-0 mt-50 text-left" id="fileCheckAlert"
 					style="border-radius: 0;border: none;color: #555;margin-bottom: 0px;">
 					<i class="fa fa-exclamation-circle"> </i>
-					<span class="ml-5" style="margin-left: 5px" data-zh="通过ipa安装包进行检测，检测结果会有10%左右的误差。" data-en="When checking via IPA, results may have about a 10% margin of error.">
+					<span class="ml-5" style="margin-left: 5px" data-i18n data-zh="通过ipa安装包进行检测，检测结果会有10%左右的误差。" data-en="When checking via IPA, results may have about a 10% margin of error.">
 						通过ipa安装包进行检测，检测结果会有10%左右的误差。
 					</span>
 					<br />
 					<i class="fa fa-exclamation-circle"> </i>
-					<span class="ml-5" style="margin-left: 5px" data-zh="证书检测结果若为掉签，新用户将无法安装，老用户会陆续无法打开应用。" data-en="If the certificate is revoked, new users cannot install and existing users will gradually lose access.">
+					<span class="ml-5" style="margin-left: 5px" data-i18n data-zh="证书检测结果若为掉签，新用户将无法安装，老用户会陆续无法打开应用。" data-en="If the certificate is revoked, new users cannot install and existing users will gradually lose access.">
 						证书检测结果若为掉签，新用户将无法安装，老用户会陆续无法打开应用。
 					</span>
 				</div>
@@ -256,12 +256,9 @@
 	}
 
 	function applyLang(lang) {
-		// Only swap elements that have BOTH data-zh and data-en and no child elements
-		// (using .children().length === 0 to avoid wiping button children, icon spans etc.)
-		$('[data-zh][data-en]').each(function () {
-			if ($(this).children().length === 0) {
-				$(this).text($(this).attr('data-' + lang));
-			}
+		// Swap only elements explicitly marked data-i18n, never the toggle button itself
+		$('[data-i18n]').each(function () {
+			$(this).text($(this).attr('data-' + lang));
 		});
 
 		// Update the button label to show what language you'll switch TO
