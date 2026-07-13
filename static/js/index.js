@@ -15,6 +15,37 @@ var file_item = null;
 var this_input = null;
 
 /* -------------------------------------------------------------------------
+ * i18n string table
+ * ---------------------------------------------------------------------- */
+var i18n = {
+    zh: {
+        wrongFormat:      '文件格式不正确，仅支持 p12、mobileprovision、ipa 格式文件',
+        passwordTitle:    '密码',
+        statusRevoked:    '掉签',
+        statusExpired:    '过期',
+        statusGood:       '正常',
+        statusUnknown:    '未知',
+        provisionMatched: '与证书匹配',
+        country:          '国家',
+    },
+    en: {
+        wrongFormat:      'Invalid file type. Only p12, mobileprovision, and ipa files are supported.',
+        passwordTitle:    'Password',
+        statusRevoked:    'Revoked',
+        statusExpired:    'Expired',
+        statusGood:       'Valid',
+        statusUnknown:    'Unknown',
+        provisionMatched: 'Matches Certificate',
+        country:          'Country',
+    }
+};
+
+function t(key) {
+    var lang = (typeof currentLang !== 'undefined') ? currentLang : 'zh';
+    return i18n[lang][key] || i18n['zh'][key];
+}
+
+/* -------------------------------------------------------------------------
  * Drag & drop wiring
  * ---------------------------------------------------------------------- */
 document.ondragover = function (e) { e.preventDefault(); };
@@ -39,7 +70,7 @@ function handleFileUpload(files) {
     var ext     = file_item.name.split('.').pop().toLocaleLowerCase();
 
     if (allowed.indexOf(ext) === -1) {
-        alert('文件格式不正确，仅支持 p12、mobileprovision、ipa 格式文件');
+        alert(t('wrongFormat'));
         return;
     }
 
@@ -47,7 +78,7 @@ function handleFileUpload(files) {
     var real = file_item.name.substring(dot + 1, file_item.name.length);
 
     if (real == 'p12' || real == 'P12') {
-        layer.prompt({ title: '密码', formType: 1 }, function (password, index) {
+        layer.prompt({ title: t('passwordTitle'), formType: 1 }, function (password, index) {
             uploads(file_item, password, '');
             layer.close(index);
         });
@@ -77,8 +108,6 @@ async function read(file) {
 
 /* -------------------------------------------------------------------------
  * Upload + render the API response
- * (4th plist argument is preserved to match the original signature, even
- *  though it is never used inside this function — exactly as in the source.)
  * ---------------------------------------------------------------------- */
 function uploads(p12, password, mp, plist) {
     var formData = new FormData();
@@ -107,26 +136,26 @@ function uploads(p12, password, mp, plist) {
 
                 if (res.state == 'revoked') {
                     $('#revokedDate').removeClass('hide');
-                    $('#certStatus').prepend('<span class="text-danger">掉签</span>');
+                    $('#certStatus').prepend('<span class="text-danger">' + t('statusRevoked') + '</span>');
                     $('#certRevokedDate').html(res.revokedDate);
                     $('#certStatusExplain').attr('data-content', res.revokedReason);
                 } else if (res.state == 'expired') {
                     $('#revokedDate').removeClass('hide');
-                    $('#certStatus').prepend('<span class="text-danger">过期</span>');
+                    $('#certStatus').prepend('<span class="text-danger">' + t('statusExpired') + '</span>');
                     $('#certRevokedDate').html(res.revokedDate);
                     $('#certStatusExplain').attr('data-content', res.revokedReason);
                 } else if (res.state == 'good') {
                     $('#certStatusExplain').attr('class', 'hide');
-                    $('#certStatus').prepend('<span class="text-success">正常</span>');
+                    $('#certStatus').prepend('<span class="text-success">' + t('statusGood') + '</span>');
                 } else {
                     $('#certStatusExplain').attr('class', 'hide');
-                    $('#certStatus').prepend('<span class="text-danger">未知</span>');
+                    $('#certStatus').prepend('<span class="text-danger">' + t('statusUnknown') + '</span>');
                 }
 
                 $('#certName').html(res.certName);
                 $('#certExpireDate').html(res.notAfter);
                 if (res.certType) {
-                    $('#certType').html(res.certType + '(国家:' + res.attribution + ')');
+                    $('#certType').html(res.certType + '(' + t('country') + ':' + res.attribution + ')');
                 } else if (res.attribution) {
                     $('#certType').html(res.attribution);
                 }
@@ -139,10 +168,10 @@ function uploads(p12, password, mp, plist) {
                     $('.provision-detail').removeClass('hide');
                     $('#provisionExpireDate').html(res.expirationDate);
                     $('#identifier').html(res.appid);
-                    $('#provisionStatus').prepend('<span class="text-success">与证书匹配</span>');
+                    $('#provisionStatus').prepend('<span class="text-success">' + t('provisionMatched') + '</span>');
                 }
                 if (res.cFBundleName) {
-                    $('#provisionStatus').prepend('<span class="text-success">与证书匹配</span>');
+                    $('#provisionStatus').prepend('<span class="text-success">' + t('provisionMatched') + '</span>');
                     $('.bundleIdSpan').html(res.cFBundleIdentifier);
                     $('#certRevokedDate').html(res.revokedDate);
                     $('.appNameSpan').html(res.cFBundleName);
