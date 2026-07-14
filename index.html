@@ -5,7 +5,7 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
     <meta name="keywords" content="iOS证书在线检测,ipa证书检测,p12证书检测,描述文件检测,苹果企业证书检测,掉签检测" />
-    <meta name="description" content="iOS证书在线检测 iOS Certificate Check" />
+    <meta name="description" content="iOS证书在线检测,ipa证书检测,p12证书检测,描述文件检测,苹果企业证书检测,掉签检测" />
 	<title>iOS证书在线检测</title>
 	<link rel="icon" type="image/ico" href="favicon.ico">
 	<link rel="stylesheet" href="static/css/bootstrap.min.css" />
@@ -37,20 +37,31 @@
 		span.item-result {
 			padding-left: 8px;
 		}
+		/* Keep label and value on the same line at all screen sizes */
+		#certCheckTabContent > #certResult > #certDetail p.check-item {
+			flex-direction: row !important;
+			align-items: flex-start !important;
+		}
+		#certCheckTabContent > #certResult > #certDetail p.check-item span {
+			text-align: left;
+			width: auto !important;
+		}
+		#certCheckTabContent > #certResult > #certDetail #fileCertResult p.check-item span.item-title {
+			flex-shrink: 0;
+		}
 		/* Keep cert icon a fixed size regardless of container width */
 		#certFlag {
 			width: 70px !important;
 			height: 70px !important;
 			min-width: 70px;
 		}
-		@media (min-width: 768px) {
-    .cert.col-md-8 {
-        width: 70.83% !important;
-    }
-    .cert.col-md-offset-2 {
-        margin-left: 14.58% !important;
-    }
-}
+		/* Widen the main cert form from 8 columns to ~10 columns */
+		.cert.col-md-8 {
+			width: 86% !important;
+		}
+		.cert.col-md-offset-2 {
+			margin-left: 7% !important;
+		}
 	</style>
 </head>
 
