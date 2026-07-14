@@ -167,7 +167,7 @@ function uploads(p12, password, mp, plist) {
 
                 if (res.sha1) {
                     $('#sha1Row').removeClass('hide');
-                    $('#certSha1').html(res.sha1);
+                    $('#certSha1').css('word-break', 'break-all').html(res.sha1.toLowerCase());
                 }
                 if (res.expirationDate) {
                     lastProvisionMatched = true;
