@@ -313,8 +313,6 @@
 			? ((typeMap[lang] && typeMap[lang][certType]) || certType)
 			: null;
 		var val = '';
-		if (certType && attribution) {
-			val = certType + ' (' + countryWord + ': ' + attribution + ')';
 		if (displayType && attribution) {
 			val = displayType + ' (' + countryWord + ': ' + attribution + ')';
 		} else if (displayType) {
