@@ -160,7 +160,11 @@ function uploads(p12, password, mp, plist) {
                 $('#certName').html(res.certName);
                 $('#certExpireDate').html(res.notAfter);
                 if (res.certType) {
-                    $('#certType').html(res.certType + ' (' + t('country') + ': ' + res.attribution + ')');
+                    var typeMapZh = { 'In-House': '企业', 'Ad Hoc': '个人', 'Development': '开发' };
+                    var lang = (typeof currentLang !== 'undefined') ? currentLang : 'zh';
+                    var countryWord = (lang === 'en') ? 'Country' : '国家';
+                    var displayType = (lang === 'zh' && typeMapZh[res.certType]) ? typeMapZh[res.certType] : res.certType;
+                    $('#certType').html(displayType + ' (' + countryWord + ': ' + res.attribution + ')');
                 } else if (res.attribution) {
                     $('#certType').html(res.attribution);
                 }
