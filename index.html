@@ -43,31 +43,6 @@
 			height: 70px !important;
 			min-width: 70px;
 		}
-		/* Keep label and value on the same line at all screen sizes */
-		#certCheckTabContent > #certResult > #certDetail p.check-item {
-			flex-direction: row !important;
-			align-items: flex-start !important;
-		}
-		#certCheckTabContent > #certResult > #certDetail p.check-item span {
-			text-align: left;
-			width: auto !important;
-		}
-		#certCheckTabContent > #certResult > #certDetail #fileCertResult p.check-item span.item-title {
-			flex-shrink: 0;
-		}
-		/* Stop SHA-1 label from taking up too much flex space */
-		#sha1Row {
-			justify-content: flex-start !important;
-			padding-left: 0;
-		}
-		#sha1Row span.item-title {
-			flex: none !important;
-			text-align: left !important;
-		}
-		#sha1Row span.item-result {
-			flex: 1 !important;
-			word-break: break-all;
-		}
 		@media (min-width: 768px) {
     .cert.col-md-8 {
         width: 70.83% !important;
@@ -226,7 +201,7 @@
 									</p>
                                     
                                     <p class="check-item hide" id="sha1Row">
-                                      <span class="item-title">SHA-1：</span>
+                                      <span class="text-right item-title">SHA-1：</span>
                                       <span class="text-left item-result" id=certSha1></span>
                                     </p>
                                     
@@ -331,13 +306,15 @@
 		if (!certType && !attribution) return;
 		var countryWord = (lang === 'en') ? 'Country' : '国家';
 		var typeMap = {
-			zh: { 'In-House': '企业', 'Ad Hoc': '个人', 'Development': '开发' },
+			zh: { 'In-House': '企业', 'Ad Hoc': '测试', 'Development': '开发' },
 			en: { 'In-House': 'In-House', 'Ad Hoc': 'Ad Hoc', 'Development': 'Development' }
 		};
 		var displayType = certType
 			? ((typeMap[lang] && typeMap[lang][certType]) || certType)
 			: null;
 		var val = '';
+		if (certType && attribution) {
+			val = certType + ' (' + countryWord + ': ' + attribution + ')';
 		if (displayType && attribution) {
 			val = displayType + ' (' + countryWord + ': ' + attribution + ')';
 		} else if (displayType) {
