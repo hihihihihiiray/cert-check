@@ -35,7 +35,7 @@
 		}
 		/* Add a gap between label and value in result rows */
 		span.item-result {
-			padding-left: 8px;
+			padding-left: 7px;
 		}
 		/* Keep cert icon a fixed size regardless of container width */
 		#certFlag {
@@ -43,14 +43,33 @@
 			height: 70px !important;
 			min-width: 70px;
 		}
+
+		/* Tablet and Desktop Styles */
 		@media (min-width: 775px) {
-    .cert.col-md-8 {
-        width: 68.75% !important;
-    }
-    .cert.col-md-offset-2 {
-        margin-left: 15.625% !important;
-    }
-}
+			.cert.col-md-8 {
+				width: 68.75% !important;
+			}
+			.cert.col-md-offset-2 {
+				margin-left: 15.625% !important;
+			}
+			/* Target only the SHA-1 text value on tablet/desktop */
+			#certSha1 {
+				font-size: 16px; /* Adjust this to your preferred desktop font size */
+			}
+		}
+
+		/* Mobile Phone Styles Only */
+		@media (max-width: 774px) {
+			/* Scoots the entire SHA-1 line to the left on mobile */
+			#sha1Row {
+				position: relative;
+				right: 5px; 
+			}
+			/* Forces the long SHA-1 string to break-all on mobile */
+			#certSha1 {
+				word-break: break-all;
+			}
+		}
 	</style>
 </head>
 
