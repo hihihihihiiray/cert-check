@@ -169,10 +169,6 @@ function uploads(p12, password, mp, plist) {
                     $('#certType').html(res.attribution);
                 }
 
-                if (res.sha1) {
-                    $('#sha1Row').removeClass('hide');
-                    $('#certSha1').html(res.sha1.toLowerCase());
-                }
                 if (res.expirationDate) {
                     lastProvisionMatched = true;
                     $('.provision-detail').removeClass('hide');
@@ -232,7 +228,6 @@ function toggleRes() {
     $('#certExpireDate').empty();
     $('#certRevokedDate').empty();
     $('#certType').empty();
-    $('#certSha1').empty();
     $('#provisionStatus').empty();
     $('#provisionExpireDate').empty();
     $('#identifier').empty();
