@@ -1,5 +1,5 @@
 /**
- * iOS 证书在线检测 — client-side cert checker.
+ * iOS 证书在线检测 — client-side cert checker
  * Deobfuscated (1:1) from the original obfuscated version.
  *
  * Behavior preserved exactly. The only external network call is
