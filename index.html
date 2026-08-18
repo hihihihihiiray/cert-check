@@ -6,34 +6,13 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
     <meta name="keywords" content="iOS证书在线检测,ipa证书检测,p12证书检测,描述文件检测,苹果企业证书检测,掉签检测" />
     <meta name="description" content="iOS证书在线检测,ipa证书检测,p12证书检测,描述文件检测,苹果企业证书检测,掉签检测" />
-	<title>iOS证书在线检测</title>
+	<title>iOS 证书在线检测</title>
 	<link rel="apple-touch-icon" href="favicon.ico">
 	<link rel="stylesheet" href="static/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="static/css/animate.css" />
 	<link rel="stylesheet" href="static/css/font-awesome.css" />
 	<link rel="stylesheet" href="static/css/index.css" />
 	<style>
-		#langToggle {
-			position: fixed;
-			top: 14px;
-			right: 16px;
-			z-index: 9999;
-			background: transparent;
-			border: 1.5px solid #29bb9c;
-			color: #29bb9c;
-			border-radius: 4px;
-			padding: 4px 12px;
-			font-size: 13px;
-			font-weight: 600;
-			cursor: pointer;
-			transition: background 0.2s, color 0.2s;
-			letter-spacing: 0.5px;
-		}
-		#langToggle:hover {
-			background: #29bb9c;
-			color: #fff;
-		}
-		/* Keep cert icon a fixed size regardless of container width */
 		#certFlag {
 			width: 75px !important;
 			height: 65px !important;
@@ -73,7 +52,7 @@
 	<button id="langToggle" onclick="toggleLang()">EN</button>
 
 	<input type="file" name="uploadfile" class="hide" onchange="handleFileUpload(this.files, $(this))" data-target=""
-		id="uploadfile" />
+		    id="uploadfile" accept=".p12,.mobileprovision,.ipa" />
 	<div class="content container mt-65 inner-content">
 	    <div class="col-md-12">
 			<div class="col-md-offset-8 text-center">
