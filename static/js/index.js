@@ -161,9 +161,8 @@ function uploads(p12, password, mp, plist) {
                 $('#certExpireDate').html(res.notAfter);
                 if (res.certType) {
                     var typeMapZh = { 'In-House': '企业', 'Ad Hoc': '个人', 'Development': '开发' };
-                    var lang = (typeof currentLang !== 'undefined') ? currentLang : 'zh';
-                    var countryWord = (lang === 'en') ? 'Country' : '国家';
-                    var displayType = (lang === 'zh' && typeMapZh[res.certType]) ? typeMapZh[res.certType] : res.certType;
+                    var countryWord = (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'Country' : '国家';
+                    var displayType = typeMapZh[res.certType] || res.certType;
                     $('#certType').html(displayType + ' (' + countryWord + ': ' + res.attribution + ')');
                 } else if (res.attribution) {
                     $('#certType').html(res.attribution);
