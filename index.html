@@ -299,9 +299,8 @@
 			zh: { 'In-House': '企业', 'Ad Hoc': '个人', 'Development': '开发' },
 			en: { 'In-House': 'In-House', 'Ad Hoc': 'Ad-Hoc (Personal)', 'Development': 'Development' }
 		};
-		var displayType = certType
-			? ((typeMap[lang] && typeMap[lang][certType]) || certType)
-			: null;
+		var typeMapZh = { 'In-House': '企业', 'Ad Hoc': '个人', 'Development': '开发' };
+        var displayType = certType ? (typeMapZh[certType] || certType) : null;
 		var val = '';
 		if (displayType && attribution) {
 			val = displayType + ' (' + countryWord + ': ' + attribution + ')';
