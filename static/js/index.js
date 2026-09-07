@@ -131,7 +131,7 @@ function uploads(p12, password, mp, plist) {
         success:      function (res) {
             if (res.code == 0) {
                 $('#search').attr('class', 'hide');
-                $('#certResult').removeClass('hide');
+                $('#certResult').hide().removeClass('hide').fadeIn(350);
                 $('#fileCertResult').removeClass('hide');
 
                 // Save raw state so the language toggle can re-render these later
