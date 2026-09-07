@@ -213,7 +213,7 @@ function uploads(p12, password, mp, plist) {
  * ---------------------------------------------------------------------- */
 function toggleRes() {
     // Fade out the results
-    $('#certResult').fadeOut(375, function() {
+    $('#certResult').fadeOut(320, function() {
         // Reset everything after fade completes
         uploading  = false;
         file_item  = null;
@@ -255,7 +255,7 @@ function toggleRes() {
         if (typeof lastProvisionMatched !== 'undefined') lastProvisionMatched = false;
 
         // Fade the upload box back in
-        $('#shortUrl').hide().removeClass('hide').fadeIn(375);
+        $('#shortUrl').hide().removeClass('hide').fadeIn(320);
     });
 }
 
