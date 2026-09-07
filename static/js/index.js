@@ -213,7 +213,7 @@ function uploads(p12, password, mp, plist) {
  * ---------------------------------------------------------------------- */
 function toggleRes() {
     // Fade out the results
-    $('#certResult').fadeOut(900, function() {
+    $('#certResult').fadeOut(350, function() {
         // Reset everything after fade completes
         uploading  = false;
         file_item  = null;
