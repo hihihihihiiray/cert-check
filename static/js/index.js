@@ -212,58 +212,51 @@ function uploads(p12, password, mp, plist) {
  * Reset UI back to upload state without reloading the page
  * ---------------------------------------------------------------------- */
 function toggleRes() {
-    // Reset upload state
-    uploading  = false;
-    file_item  = null;
-    this_input = null;
+    // Fade out the results
+    $('#certResult').fadeOut(900, function() {
+        // Reset everything after fade completes
+        uploading  = false;
+        file_item  = null;
+        this_input = null;
 
-    // Clear the file input so the same file can be re-selected
-    $('#uploadfile').val('');
+        $('#uploadfile').val('');
+        $('#certResult').addClass('hide').show();
+        $('#search').addClass('hide');
+        $('#errorMsg').addClass('hide');
+        $('#recheckBtn').addClass('hide');
 
-    // Hide results and error panels
-    $('#certResult').addClass('hide');
-    $('#search').addClass('hide');
-    $('#errorMsg').addClass('hide');
-    $('#recheckBtn').addClass('hide');
+        $('#certStatus').empty();
+        $('#certName').empty();
+        $('#certExpireDate').empty();
+        $('#certRevokedDate').empty();
+        $('#certType').empty();
+        $('#certSha1').empty();
+        $('#provisionStatus').empty();
+        $('#provisionExpireDate').empty();
+        $('#identifier').empty();
+        $('#errorMsg').empty();
 
-    // Clear injected result content
-    $('#certStatus').empty();
-    $('#certName').empty();
-    $('#certExpireDate').empty();
-    $('#certRevokedDate').empty();
-    $('#certType').empty();
-    $('#certSha1').empty();
-    $('#provisionStatus').empty();
-    $('#provisionExpireDate').empty();
-    $('#identifier').empty();
-    $('#errorMsg').empty();
+        $('#revokedDate').addClass('hide');
+        $('#sha1Row').addClass('hide');
+        $('#appName').addClass('hide');
+        $('#bundleId').addClass('hide');
+        $('#certDetail').removeClass('hide');
+        $('.provision-detail').addClass('hide');
 
-    // Re-hide rows that are only shown conditionally
-    $('#revokedDate').addClass('hide');
-    $('#sha1Row').addClass('hide');
-    $('#appName').addClass('hide');
-    $('#bundleId').addClass('hide');
-    $('#certDetail').removeClass('hide');
-    $('.provision-detail').addClass('hide');
+        $('.appNameSpan').empty();
+        $('.bundleIdSpan').empty();
 
-    // Clear IPA-specific fields
-    $('.appNameSpan').empty();
-    $('.bundleIdSpan').empty();
+        $('#certFlag').attr('src', 'static/picture/cert_icon_2x.png');
+        $('#certStatusExplain').removeClass('hide');
 
-    // Restore cert icon to default
-    $('#certFlag').attr('src', 'static/picture/cert_icon_2x.png');
+        if (typeof lastCertState   !== 'undefined') lastCertState   = null;
+        if (typeof lastCertType    !== 'undefined') lastCertType    = null;
+        if (typeof lastAttribution !== 'undefined') lastAttribution = null;
+        if (typeof lastProvisionMatched !== 'undefined') lastProvisionMatched = false;
 
-    // Reset certStatusExplain popover class
-    $('#certStatusExplain').removeClass('hide');
-
-    // Reset language-toggle tracking variables (defined in index.html)
-    if (typeof lastCertState   !== 'undefined') lastCertState   = null;
-    if (typeof lastCertType    !== 'undefined') lastCertType    = null;
-    if (typeof lastAttribution !== 'undefined') lastAttribution = null;
-    if (typeof lastProvisionMatched !== 'undefined') lastProvisionMatched = false;
-
-    // Show the upload box again
-    $('#shortUrl').css('display', '');
+        // Fade the upload box back in
+        $('#shortUrl').hide().removeClass('hide').fadeIn(300);
+    });
 }
 
 /* -------------------------------------------------------------------------
