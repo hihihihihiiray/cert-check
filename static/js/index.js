@@ -131,7 +131,7 @@ function uploads(p12, password, mp, plist) {
         success:      function (res) {
             if (res.code == 0) {
                 $('#search').attr('class', 'hide');
-                $('#certResult').hide().removeClass('hide').fadeIn(150);
+                $('#certResult').hide().removeClass('hide').fadeIn(180);
                 $('#fileCertResult').removeClass('hide');
 
                 // Save raw state so the language toggle can re-render these later
@@ -213,7 +213,7 @@ function uploads(p12, password, mp, plist) {
  * ---------------------------------------------------------------------- */
 function toggleRes() {
     // Fade out the results
-    $('#certResult').fadeOut(290, function() {
+    $('#certResult').fadeOut(260, function() {
         // Reset everything after fade completes
         uploading  = false;
         file_item  = null;
@@ -255,7 +255,7 @@ function toggleRes() {
         if (typeof lastProvisionMatched !== 'undefined') lastProvisionMatched = false;
 
         // Fade the upload box back in
-        $('#shortUrl').hide().removeClass('hide').fadeIn(290);
+        $('#shortUrl').hide().removeClass('hide').fadeIn(260);
     });
 }
 
