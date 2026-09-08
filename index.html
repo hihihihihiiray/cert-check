@@ -41,6 +41,19 @@
 }
 
 		/* Tablet and Desktop Styles */
+		@media (min-width: 768px) {
+			.cert.col-md-8 {
+				width: 66.66% !important;
+			}
+			.cert.col-md-offset-2 {
+				margin-left: 16.67% !important;
+			}
+			#sha1Row {
+                justify-content: flex-start !important;
+                margin-left: 124px;
+        }
+	 }
+
 		@media (max-width: 768px) {
 			.cert.col-md-8 {
 				width: 110% !important;
@@ -48,10 +61,7 @@
 			.cert.col-md-offset-2 {
 				margin-left: -5% !important;
 			}
-			#sha1Row {
-                justify-content: flex-start !important;
-                margin-left: 124px;
-        }
+		}
 	</style>
 </head>
 
