@@ -50,7 +50,24 @@
 			#sha1Row {
                 justify-content: flex-start !important;
                 margin-left: 124px;
-        }
+            }
+
+			@media (max-width: 767px) {
+    /* Widen the outer container card */
+    .cert {
+        width: 100% !important;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Widen the dashed upload box */
+    #uploadIpa {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
 	</style>
 </head>
 
