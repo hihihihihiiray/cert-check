@@ -51,6 +51,37 @@
                 justify-content: flex-start !important;
                 margin-left: 124px;
             }
+
+			@media (max-width: 767px) {
+    /* Widen the outermost page container */
+    .content.container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        width: 100% !important;
+    }
+
+    /* Widen the main white box */
+    .cert {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* Remove padding from the wrappers directly around the dashed box */
+    #shortUrl .container-fluid,
+    #shortUrl .col-md-12 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* Force the dashed box to expand to the edges of the newly widened wrappers */
+    #uploadIpa {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
 	</style>
 </head>
 
