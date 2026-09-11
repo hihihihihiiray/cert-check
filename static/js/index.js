@@ -21,7 +21,7 @@ var i18n = {
     zh: {
         wrongFormat:      '文件格式不正确，仅支持 p12、mobileprovision、ipa 格式文件',
         passwordTitle:    '密码',
-        statusRevoked:    '掉签',
+        statusRevoked:    '撤销',
         statusExpired:    '过期',
         statusGood:       '正常',
         statusUnknown:    '未知',
