@@ -107,136 +107,96 @@ async function read(file) {
 }
 
 /* -------------------------------------------------------------------------
- * Upload + render the API response (p12.ee)
+ * Upload + render the API response
  * ---------------------------------------------------------------------- */
 function uploads(p12, password, mp, plist) {
     var formData = new FormData();
-
-    // p12.ee uses "file" for the main file and "p12pwd" for the password
-    if (p12) {
-        formData.append('file',   p12);
-        formData.append('p12pwd', password ? password : '');
-    } else if (mp) {
-        formData.append('file',   mp);
-        formData.append('p12pwd', '');
-    }
-    if (plist) {
-        formData.append('infofile', plist);
-    }
+    formData.append('p12',      p12 ? p12 : '');
+    formData.append('password', password ? password : '');
+    formData.append('mp',       mp ? mp : '');
 
     this_input = $(this);
     $('#shortUrl').css('display', 'none');
     $('#search').removeClass('hide');
 
     $.ajax({
-        url:         'https://p12.ee/icapi/icheck/upload',
-        type:        'POST',
-        cache:       false,
-        data:        formData,
-        processData: false,
-        contentType: false,
-        dataType:    'json',
-        // p12.ee requires these headers to pass its anti-CSRF check
-        headers: {
-            'Origin':  'https://p12.ee',
-            'Referer': 'https://p12.ee/'
-        },
-        beforeSend: function () { uploading = true; },
-        success:    function (res) {
+        url:          'https://ckapi.ipasign.cc/checkcert',
+        type:         'POST',
+        cache:        false,
+        data:         formData,
+        processData:  false,
+        contentType:  false,
+        dataType:     'json',
+        beforeSend:   function () { uploading = true; },
+        success:      function (res) {
             if (res.code == 0) {
-                var d = res.data;
-
                 $('#search').attr('class', 'hide');
                 $('#certResult').hide().removeClass('hide').fadeIn(200);
                 $('#fileCertResult').removeClass('hide');
 
-                // Map p12.ee fields to our display variables
-                // pemStatus: "issued" = good, "revoked" = revoked
-                var state = (d.pemStatus === 'revoked') ? 'revoked' : 'good';
+                // Save raw state so the language toggle can re-render these later
+                lastCertState   = res.state || 'unknown';
+                lastCertType    = res.certType || null;
+                lastAttribution = res.attribution || null;
 
-                // Check if cert is expired by comparing pemExp to now
-                if (state === 'good' && d.pemExp) {
-                    var expDate = new Date(d.pemExp);
-                    if (!isNaN(expDate) && expDate < new Date()) {
-                        state = 'expired';
-                    }
-                }
-
-                // teamType mapping: "ent" = 企业, "ind" = 个人, "com" = 开发
-                var typeMapZh = { 'ent': '企业', 'ind': '个人', 'com': '开发' };
-                var typeMapEn = { 'ent': 'In-House', 'ind': 'Ad Hoc', 'com': 'Development' };
-                var certTypeRaw = d.teamType || '';
-                var certTypeZh  = typeMapZh[certTypeRaw] || certTypeRaw;
-
-                // Save for language toggle re-renders
-                lastCertState   = state;
-                lastCertType    = certTypeZh;
-                lastAttribution = d.country || null;
-
-                // Cert status
-                if (state === 'revoked') {
+                if (res.state == 'revoked') {
                     $('#revokedDate').removeClass('hide');
                     $('#certStatus').prepend('<span class="text-danger">' + t('statusRevoked') + '</span>');
-                    $('#certRevokedDate').html(d.revokeTime || '');
-                    $('#certStatusExplain').attr('data-content',
-                        t('statusRevoked') === 'Revoked'
-                            ? 'The certificate was revoked by you or Apple.'
-                            : '证书已被您自己或苹果官方撤销');
-                } else if (state === 'expired') {
+                    $('#certRevokedDate').html(res.revokedDate);
+                    $('#certStatusExplain').attr('data-content', res.revokedReason);
+                } else if (res.state == 'expired') {
                     $('#revokedDate').removeClass('hide');
                     $('#certStatus').prepend('<span class="text-danger">' + t('statusExpired') + '</span>');
-                    $('#certRevokedDate').html(d.pemExp || '');
-                    $('#certStatusExplain').attr('class', 'hide');
-                } else {
+                    $('#certRevokedDate').html(res.revokedDate);
+                    $('#certStatusExplain').attr('data-content', res.revokedReason);
+                } else if (res.state == 'good') {
                     $('#certStatusExplain').attr('class', 'hide');
                     $('#certStatus').prepend('<span class="text-success">' + t('statusGood') + '</span>');
+                } else {
+                    $('#certStatusExplain').attr('class', 'hide');
+                    $('#certStatus').prepend('<span class="text-danger">' + t('statusUnknown') + '</span>');
                 }
 
-                // Cert name and expiry
-                $('#certName').html(d.teamName || '');
-                $('#certExpireDate').html(d.pemExp || '');
-
-                // Cert type + country
-                var lang = (typeof currentLang !== 'undefined') ? currentLang : 'zh';
-                var countryWord  = (lang === 'en') ? 'Country' : '国家';
-                var displayType  = certTypeZh;
-                if (displayType && d.country) {
-                    $('#certType').html(displayType + ' (' + countryWord + ': ' + d.country + ')');
-                } else if (displayType) {
-                    $('#certType').html(displayType);
-                } else if (d.country) {
-                    $('#certType').html(d.country);
+                $('#certName').html(res.certName);
+                $('#certExpireDate').html(res.notAfter);
+                if (res.certType) {
+                    var typeMapZh = { 'In-House': '企业', 'Ad Hoc': '个人', 'Development': '开发' };
+                    var lang = (typeof currentLang !== 'undefined') ? currentLang : 'zh';
+                    var countryWord = (lang === 'en') ? 'Country' : '国家';
+                    var displayType = (lang === 'zh' && typeMapZh[res.certType]) ? typeMapZh[res.certType] : res.certType;
+                    $('#certType').html(displayType + ' (' + countryWord + ': ' + res.attribution + ')');
+                } else if (res.attribution) {
+                    $('#certType').html(res.attribution);
                 }
-
-                // SHA-1 (server calls it pemMD5 but it's 40-char SHA1)
-                if (d.pemMD5) {
+                
+                if (res.sha1) {
                     $('#sha1Row').removeClass('hide');
-                    $('#certSha1').css('word-break', 'break-all').html(d.pemMD5.toLowerCase());
+                    $('#certSha1').css('word-break', 'break-all').html(res.sha1.toLowerCase());
                 }
-
-                // Mobileprovision fields
-                if (d.mpExp || d.mpAppID) {
+                if (res.expirationDate) {
                     lastProvisionMatched = true;
                     $('.provision-detail').removeClass('hide');
-                    $('#provisionExpireDate').html(d.mpExp || '');
-                    $('#identifier').html(d.mpAppID || '');
+                    $('#provisionExpireDate').html(res.expirationDate);
+                    $('#identifier').html(res.appid);
                     $('#provisionStatus').prepend('<span class="text-success">' + t('provisionMatched') + '</span>');
                 }
-
-                // IPA bundle fields
-                if (d.ipaName) {
-                    $('.appNameSpan').html(d.ipaName);
-                    $('#appName').removeClass('hide');
-                }
-                if (d.ipaBID) {
-                    $('.bundleIdSpan').html(d.ipaBID);
+                if (res.cFBundleName) {
+                    lastProvisionMatched = true;
+                    $('#provisionStatus').prepend('<span class="text-success">' + t('provisionMatched') + '</span>');
+                    $('.bundleIdSpan').html(res.cFBundleIdentifier);
+                    $('#certRevokedDate').html(res.revokedDate);
+                    $('.appNameSpan').html(res.cFBundleName);
                     $('#bundleId').removeClass('hide');
+                    $('#provisionExpireDate').html(res.expirationDate);
+                    $('#identifier').html(res.appid);
+                    $('#appName').removeClass('hide');
+                    $('.provision-detail').removeClass('hide');
                 }
 
                 $('#recheckBtn').removeClass('hide');
             } else {
                 $('#errorMsg').removeClass('hide');
-                $('#errorMsg').prepend('<span style="color: #FD5A5A; font-size: 18px;">' + res.message + '</span>');
+                $('#errorMsg').prepend('<span style="color: #FD5A5A; font-size: 18px;">' + res.msg + '</span>');
                 $('#certResult').removeClass('hide');
                 $('#search').attr('class', 'hide');
                 $('#recheckBtn').removeClass('hide');
